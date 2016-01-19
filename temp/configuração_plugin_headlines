@@ -1,0 +1,43 @@
+//configuração da widget
+
+before
+<div id="highlights" class="ui vertically divided grid">
+
+<div class="pic"><a href="{permalink} title="{title}">{thumb size="medium"}</a></div>
+<div class="headline">
+<p class="post-meta">{categories}</p>
+<div class="post-title"><a href="{permalink}" title="{title}">{title}</a></div>
+</div>
+
+after
+</div>
+
+
+
+before
+<div id="highlights" class="two column doubling ui grid">
+
+
+<div class="pic"><a href="{permalink}" title="{title}">{thumb size="medium"}</a></div>
+<div class="headline">
+<p class="post-meta">{categories}</p>
+<div class="post-title"><a href="{permalink}" title="{title}">{title}</a></div></div>
+
+after
+</div>
+
+
+novo ---------------------------------
+
+before
+<div id="highlights" class="two column doubling ui grid">
+
+<div class="pic"><a href="{permalink}" title="{title}">{thumb size="headline"}</a></div>
+<div class="headline">
+<div class="post-title"><a href="{permalink}" title="{title}">{title}</a></div>
+<div class="post-excerpt">{excerpt}</div>
+<p class="post-meta">{categories}</p>
+</div>
+
+after
+</div>

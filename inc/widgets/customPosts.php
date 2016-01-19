@@ -1,0 +1,36 @@
+<?php
+	$query = new WP_Query('cat='. $category .'&posts_per_page=4&paged='.$paged);
+	if($query->have_posts()) :
+
+	echo $before_widget;
+	echo $before_title . $title . $after_title;
+?>
+    <ul id="labblog">
+        <?php
+        while($query->have_posts()) : $query->the_post();
+        ?>
+            <li>
+                <?php // echo has_post_thumbnail() ? '<a class="thumb" href="'. get_permalink() .'">'. the_post_thumbnail( 'thumb', array( 'class' => 'alignleft' ) ) .'</a>'; else  echo '<a class="thumb" href="'. get_permalink() .'"><img src="'. get_bloginfo('template_directory') .'/global/img/graph/graph_labblog.jpg" alt="'. get_the_title() .'" /></a>'; ?>
+                <?php echo ( has_post_thumbnail() ) ? the_post_thumbnail( 'src' => get_permalink() ) : '<a class="thumb" href="'. get_permalink() .'"><img src="'. get_bloginfo('template_directory') .'/img/icon/cdbr.jpg" alt="'. get_the_title() .'" /></a>';  ?>
+                <h2><a href="<?php the_permalink(); ?>"><?php limit_chars(get_the_title(), 40); ?></a></h2>
+                <?php limit_chars(get_the_excerpt(),80); ?>
+                <div class="clear"></div>
+            </li>
+        <?php
+        endwhile;
+        ?>
+    </ul>
+    <?php
+	if(get_next_posts_link() != '')
+	{
+		$links = get_next_posts_link();
+		$links = strstr($links, 'http://');
+		$linkspos = strpos($links, '"');
+		$links = substr($links, 0, $linkspos);
+		
+		echo '<div class="load-more"><a href="'. $links .'" class="more">ver mais</a></div>';
+    }
+		
+	echo $after_widget;
+
+	endif;
