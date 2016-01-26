@@ -9,7 +9,7 @@ Author URI: http://xemele.cultura.gov.br/
 
 class widget_login extends WP_Widget
 {	
-	function widget_login()
+	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_login', 'description' => __( 'Login') );
 		parent::WP_Widget('login', __('Login'), $widget_args);

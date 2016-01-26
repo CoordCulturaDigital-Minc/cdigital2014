@@ -9,7 +9,7 @@ Author URI: http://xemele.cultura.gov.br/
 
 class widget_recentComments extends WP_Widget
 {	
-	function widget_recentComments()
+	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_recentComments', 'description' => __( 'Mostra os comentários recentes') );
 		parent::WP_Widget('recentComments', __('Comentários recentes'), $widget_args);

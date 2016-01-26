@@ -9,7 +9,7 @@ Author URI: http://xemele.cultura.gov.br/
 
 class widget_map extends WP_Widget
 {	
-	function widget_map()
+	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_map', 'description' => __( 'Mapa') );
 		parent::WP_Widget('mapa', __('Mapa'), $widget_args);

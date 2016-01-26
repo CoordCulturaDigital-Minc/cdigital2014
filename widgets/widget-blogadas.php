@@ -129,7 +129,7 @@ class Widget_ultimas_blog extends WP_Widget
 	 * @updated 2012-05-29
 	 * @return  void
 	 */
-	function Widget_ultimas_blog()
+	function __construct()
 	{
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';

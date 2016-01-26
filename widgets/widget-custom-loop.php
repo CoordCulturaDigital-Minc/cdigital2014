@@ -267,7 +267,7 @@ class Widget_Custom_Loop extends WP_Widget
 	 * @updated 2011-11-22
 	 * @return  void
 	 */
-	function Widget_Custom_Loop()
+	function __construct()
 	{
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';

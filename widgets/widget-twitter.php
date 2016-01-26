@@ -218,7 +218,7 @@ class Widget_Twitter_Feed extends WP_Widget
 	 * @updated 2014-10-27
 	 * @return  void
 	 */
-	function Widget_Twitter_Feed()
+	function __construct()
 	{
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';

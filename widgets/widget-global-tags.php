@@ -150,7 +150,7 @@ class Widget_Global_Tags extends WP_Widget
 	 * @updated 2014-10-27
 	 * @return  void
 	 */
-	function Widget_Global_Tags()
+	function __construct()
 	{
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';

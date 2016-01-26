@@ -9,7 +9,7 @@ Author URI: http://xemele.cultura.gov.br/
 
 class widget_blogs extends WP_Widget
 {	
-	function widget_blogs()
+	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_blogs', 'description' => __( 'Blogs') );
 		parent::WP_Widget('blogs', __('Blogs'), $widget_args);

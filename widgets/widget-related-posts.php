@@ -10,7 +10,7 @@ Author URI: http://xemele.cultura.gov.br/
 
 class widget_related_posts extends WP_Widget
 {	
-	function widget_related_posts()
+	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_related_posts', 'description' => __( 'Posts relacionados') );
 		parent::WP_Widget('related_posts', __('Related Posts'), $widget_args);
