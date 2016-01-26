@@ -164,7 +164,7 @@ class Custom_Theme
 	 * @updated 2012-03-29
 	 * @return  string
 	 */
-  function Custom_Theme()
+  function __construct()
   {
     // ativar o menu
     add_action( 'admin_menu', array( &$this, 'menus' ) );

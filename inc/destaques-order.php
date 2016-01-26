@@ -157,7 +157,7 @@ class Slide_Order
 	 * @updated 2012-12-16
 	 * @return  void
 	 */
-	function Slide_Order()
+	function __construct()
 	{
 		// define plugin url
 		$this->url = WP_PLUGIN_URL . '/' . $this->slug;
