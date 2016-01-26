@@ -1,6 +1,7 @@
 <?php
 /*
 Function Name: Widget Atividades
+Description: Widget para listar as atividades do Cultura Digital na página inicial, não usar em outras páginas pode ter problema com o buddypress
 Plugin URI: http://xemele.cultura.gov.br/
 Version: 0.1
 Author: Marcos Maia Lopes, atualizado por Cleber Santos
@@ -10,10 +11,40 @@ Author URI: http://xemele.cultura.gov.br/
 
 class widget_activity extends WP_Widget
 {	
-	function widget_activity()
+	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_activity', 'description' => __( 'Fluxo de atividades em todo site') );
 		parent::WP_Widget('activity', __('Fluxo de atividades'), $widget_args);
+
+
+		// filtro para mostrar na home apenas os itens que foram definidos na widget
+		add_filter( 'bp_legacy_theme_ajax_querystring', array($this, 'widget_atividades_querystring' ),10); 
+	}
+
+	function widget_atividades_querystring( $query_string ) {
+
+		if( is_home() ) {
+			$widget_options_all = get_option($this->option_name);
+	  		$options = $widget_options_all[ $this->number ];
+		
+			// echo $this->option_name;
+			($widget_options_all[6]['activityFilterBy']);  		
+
+			// $query_string2 .= $query_string;
+
+			$maxActivities 	  = empty($widget_options_all[6]['maxActivities']) ? 9 : $widget_options_all[6]['maxActivities'];
+		    $activityFilterBy = empty($instance['activityFilterBy']) ? '' : $instance['activityFilterBy'];
+
+		    // cria o filtro de actions, pega as chaves do array e cria uma string separando os valores por virgula	    
+		    $query_string  .= '&action=' . implode ("," , array_keys( $widget_options_all[6]['activityFilterBy'] ) );
+
+		    // máximo de atividades
+		    $query_string .= '&max=' . $maxActivities; 
+		    $query_string .= '&per_page=' . $maxActivities;
+		    // $query_string .= '&display_comments=stream';
+		}
+	    
+	    return $query_string; 
 	}
 
 	function widget($args, $instance)
@@ -25,16 +56,19 @@ class widget_activity extends WP_Widget
 
 	    $blog_url 		  = get_bloginfo( 'url' );
 	    $title 			  = apply_filters('widget_title', empty($instance['title']) ? 'Atividades na rede' : $instance['title']);
-	    $maxActivities 	  = empty($instance['maxActivities']) ? 10 : $instance['maxActivities'];
+	    $maxActivities 	  = empty($instance['maxActivities']) ? 9 : $instance['maxActivities'];
 	    $activityFilterBy = empty($instance['activityFilterBy']) ? '' : $instance['activityFilterBy'];
 
 	    // cria o filtro de actions, pega as chaves do array e cria uma string separando os valores por virgula	    
 	    $query_string  = '&action=' . implode ("," , array_keys( $activityFilterBy ) );
 
 	    // máximo de atividades
-		$query_string .= '&max=' . $maxActivities; 
+	    $query_string .= '&max=' . $maxActivities; 
+		$query_string .= '&per_page=' . $maxActivities; 
+		// $query_string .= '&display_comments=stream';
 
-		// Mostrar essa widget apenas no perfil do usuário e na página inicial
+
+		// TODO: remover Mostrar essa widget apenas no perfil do usuário e na página inicial
 
 		// se for a página do usuário
 		if( bp_displayed_user_id() ) {
@@ -72,64 +106,66 @@ class widget_activity extends WP_Widget
 
 			<?php do_action( 'bp_before_directory_activity' ); ?>
 
-			<div id="buddypress" class="<?php echo (is_home() ) ? 'activity':''; ?>" role="main">
+			<div id="buddypress" >
+				<div class="<?php echo (is_home() ) ? 'activity':''; ?>" role="main">
 
-				<?php do_action( 'template_notices' ); ?>
+					<?php do_action( 'template_notices' ); ?>
 
-				<?php do_action( 'bp_before_directory_activity_content' ); ?>
+					<?php do_action( 'bp_before_directory_activity_content' ); ?>
 
-				<?php if ( is_user_logged_in() and is_home() ) : ?>
+					<?php if ( is_user_logged_in() and is_home() ) : ?>
 
-					<?php bp_get_template_part( 'activity/post-form' ); ?>
-
-				<?php endif; ?>
-
-				
-				<?php do_action( 'bp_before_directory_activity_list' ); ?>
-
-				<!-- loop -->
-
-					<?php do_action( 'bp_before_activity_loop' ); ?>
-
-					<?php //echo $query_string; ?>
-
-
-					<?php  if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . $query_string  ) ) :  ?>
-
-						<ul id="activity-stream" class="activity-list item-list">
-
-							<?php while ( bp_activities() ) : bp_the_activity(); ?>
-
-								<?php bp_get_template_part( 'activity/entry' ); ?>
-
-							<?php endwhile; ?>
-
-							<?php if ( bp_activity_has_more_items() ) : ?>
-
-								<li class="load-more">
-									<a href="<?php bp_activity_load_more_link() ?>"><?php _e( 'Load More', 'buddypress' ); ?></a>
-								</li>
-
-							<?php endif; ?>
-
-						</ul>
-
-					<?php else : ?>
-
-						<div id="message" class="info">
-							<p><?php _e( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ); ?></p>
-						</div>
+						<?php bp_get_template_part( 'activity/post-form' ); ?>
 
 					<?php endif; ?>
-	
 
-					<?php do_action( 'bp_after_activity_loop' ); ?>
+					
+					<?php do_action( 'bp_before_directory_activity_list' ); ?>
 
-				<!-- endloop -->
+					<!-- loop -->
 
-				<?php do_action( 'bp_after_directory_activity_list' ); ?>
+						<?php do_action( 'bp_before_activity_loop' ); ?>
 
-				<?php do_action( 'bp_after_directory_activity_content' ); ?>
+						<?php //echo $query_string; ?>
+
+
+						<?php  if ( bp_has_activities( bp_ajax_querystring( 'activity' ) . $query_string  ) ) :  ?>
+
+							<ul id="activity-stream" class="activity-list item-list">
+
+								<?php while ( bp_activities() ) : bp_the_activity(); ?>
+
+									<?php bp_get_template_part( 'activity/entry' ); ?>
+
+								<?php endwhile; ?>
+
+								<?php if ( bp_activity_has_more_items() ) : ?>
+
+									<li class="load-more">
+										<a href="<?php bp_activity_load_more_link() ?>"><?php _e( 'Load More', 'buddypress' ); ?></a>
+									</li>
+
+								<?php endif; ?>
+
+							</ul>
+
+						<?php else : ?>
+
+							<div id="message" class="info">
+								<p><?php _e( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ); ?></p>
+							</div>
+
+						<?php endif; ?>
+		
+
+						<?php do_action( 'bp_after_activity_loop' ); ?>
+
+					<!-- endloop -->
+
+					<?php do_action( 'bp_after_directory_activity_list' ); ?>
+
+					<?php do_action( 'bp_after_directory_activity_content' ); ?>
+				</div>
 
 			</div>	
 		
