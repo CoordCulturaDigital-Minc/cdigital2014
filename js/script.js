@@ -1,11 +1,19 @@
-jQuery( function(){
+jQuery( function($){
 
      /* ----------------------------------------------------------------------------
     *     Carrosel dos principais blogs / página inicial
     *  ---------------------------------------------------------------------------*/
     // store the slider in a local variable
-    var $window = jQuery(window),
-    flexslider;
+    // var $window = jQuery(window),
+    // flexslider;
+
+      // store the slider in a local variable
+      var $window = $(window),
+          flexslider = { vars:{} };
+
+     // $(function() {
+     //    SyntaxHighlighter.all();
+     //  });     
 
     // tiny helper function to add breakpoints
     function getGridSize() {
@@ -13,10 +21,10 @@ jQuery( function(){
        (window.innerWidth < 1150) ? 2 : 3;
     }
 
-    function getGridMobile() {
-      return (window.innerWidth < 440) ? 4 :
-       (window.innerWidth < 767) ? 7 : 10;
-    }
+    // function getGridMobile() {
+    //   return (window.innerWidth < 440) ? 4 :
+    //    (window.innerWidth < 767) ? 7 : 10;
+    // }
 
     $window.load(function() {
         jQuery('#principais-blogs .carousel-blogs')
@@ -102,9 +110,9 @@ jQuery( function(){
     jQuery('#subnav a#profile').html('Privacidade');
     
     // No perfil do usuário, insere os elementos da div #item-nav na div #item-header
-    jQuery('#buddypress #item-header').append(jQuery("#buddypress #item-nav"));
+    // jQuery('#buddypress #item-header').append(jQuery("#buddypress #item-nav"));
 
-    jQuery('#buddypress-content .post-head').append(jQuery("#buddypress #item-buttons"));
+    // jQuery('#buddypress-content .post-head').append(jQuery("#buddypress #item-buttons"));
 
     // Wordpress menu-header
     jQuery('.menu-header .menu-item-has-children').addClass('ui dropdown');
