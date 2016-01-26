@@ -30,6 +30,8 @@
 		if( is_search() ) 
 			wp_enqueue_style( 'google-custom-search', get_template_directory_uri() . '/css/google-custom-search.css', array(), false, 'screen' );
 
+		wp_enqueue_style( 'buddypress-custom-style', get_template_directory_uri() . '/css/buddypress_custom.css', array(), 1.0 );
+		
 		wp_enqueue_style( 'culturadigital-style', get_template_directory_uri() . '/css/style.css', array(), 1.0 );
 
 
@@ -116,6 +118,23 @@
 	}
 	add_action( 'bp_before_member_header_meta', 'display_user_color_pref' );
 
+	// Tirar uma atividade e colocar um resumo da biografia.
+
+	/**
+	 * Adiciona campos no perfil do usuário
+	 *
+	 * @param void
+	 * @return string
+	 */
+	function cdbr_user_latest_update( $latest_update ) {
+
+		// $bp_profissao = xprofile_get_field_data( 'biografia' );
+
+		return false;;
+	}
+	add_filter('bp_get_activity_latest_update','cdbr_user_latest_update');
+
+	
 
 	// evitando registro pelo wp-login
 	function register_block_redirect() {
@@ -155,9 +174,10 @@
 	 * @param string 
 	 * @return void
 	 */
-	function register_theme_sidebar( $name )
+	function register_theme_sidebar( $id, $name )
 	{
 		register_sidebar( array(
+			'id'          => $id,
 			'name'          => $name,
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</div>',
@@ -180,15 +200,15 @@
 	 */
 	if(function_exists('register_sidebar'))
 	{	
-		register_theme_sidebar('home-destaques');
-		register_theme_sidebar('home-left-column');
-		register_theme_sidebar('home-right-column');
-		register_theme_sidebar('home-center-column');
+		register_theme_sidebar('sidebar-1','home-destaques');
+		register_theme_sidebar('sidebar-2','home-left-column');
+		register_theme_sidebar('sidebar-3','home-right-column');
+		register_theme_sidebar('sidebar-4','home-center-column');
 
-		register_theme_sidebar( 'Posts' );		
-		register_theme_sidebar('Index');
-		register_theme_sidebar('Foruns');
-		register_theme_sidebar('Buddypress');
+		register_theme_sidebar('sidebar-5','Posts');		
+		register_theme_sidebar('sidebar-6','Index');
+		register_theme_sidebar('sidebar-7','Foruns');
+		register_theme_sidebar('sidebar-8','Buddypress');
 
 		register_theme_sidebar('tabs-sidebar');
 
@@ -222,6 +242,7 @@
 	// Filtra as atividades em todo site
 	function my_custom_activities ($a, $activities)
 	{
+		// var_dump($activities);
 		foreach ( $activities->activities as $key => $activity ) 
 		{
 			//new_member is the type name (component is 'profile')
@@ -266,6 +287,31 @@
 					$activities->pag_num = $activities->pag_num - 1;
 				}
 			}
+			elseif( $activity->type == 'updated_profile' )
+			{
+				unset( $activities->activities[$key] );
+			
+				$activities->activity_count = $activities->activity_count - 1;
+				$activities->total_activity_count = $activities->total_activity_count - 1;
+				$activities->pag_num = $activities->pag_num - 1;
+			}
+			elseif( $activity->type == 'new_blog' )
+			{
+				unset( $activities->activities[$key] );
+			
+				$activities->activity_count = $activities->activity_count - 1;
+				$activities->total_activity_count = $activities->total_activity_count - 1;
+				$activities->pag_num = $activities->pag_num - 1;
+			}
+			elseif( $activity->type == 'new_avatar' )
+			{
+				unset( $activities->activities[$key] );
+			
+				$activities->activity_count = $activities->activity_count - 1;
+				$activities->total_activity_count = $activities->total_activity_count - 1;
+				$activities->pag_num = $activities->pag_num - 1;
+			}
+			
 		}
 	
 		/* Renumber the array keys to account for missing items */
@@ -274,8 +320,136 @@
 	
 		return $activities;
     }
-    // add_action('bp_has_activities','my_custom_activities', 10, 2 );
+    add_action('bp_has_activities','my_custom_activities', 9, 2 );
+
+
+    function get_tag_html( $tag, $xml ) {
+		  $tag = preg_quote($tag);
+		  //|<[^>]+>(.*)</[^>]+>|U
+		  // '/<'. $tag .'[^>]*>.*?<\/'. $tag .'>/'
+		  //<a[^>]+>(.*)<\/[a^>]+>|U
+
+		  preg_match_all('|<[^>]+>(.*)</[^>]+>|U',
+	                   $xml,
+	                   $matches,
+	                   PREG_PATTERN_ORDER);
+
+	  return $matches[0];
+	}
+
+
+    function cdbr_get_activity_action_callback( $action, $activity ) {
+
+
+
+    	if( $activity->type == 'new_blog_post' ) {
+
+	    	$links = get_tag_html( 'a', $activity->action ); 
+	    	$action = '<span class="activity-blog">' . $links[2] . '</span>';
+	    	$action .= '<span class="activity-title">' . $links[1] . '</span>';
+	  		$action .= '<span class="activity-author">' . $links[0] . '</span>'; 
+	    }
+
+	    return $action;
+    }
+    add_filter('bp_get_activity_action_pre_meta','cdbr_get_activity_action_callback',10,2);
 	
+
+
+	/**
+	* Filtro para mostrar no menu "meus sites" apenas os blogs que o usuário é administrador.
+	*
+	*/
+
+	function cdbr_get_blogs_of_user( $blogs, $user_id , $all) {
+		
+		global $wpdb;
+
+		$user_id = (int) $user_id;
+
+		// Logged out users can't have blogs
+		if ( empty( $user_id ) )
+			return array();
+
+		$keys = get_user_meta( $user_id );
+		if ( empty( $keys ) )
+			return array();
+
+		if ( ! is_multisite() ) {
+			$blog_id = get_current_blog_id();
+			$blogs = array( $blog_id => new stdClass );
+			$blogs[ $blog_id ]->userblog_id = $blog_id;
+			$blogs[ $blog_id ]->blogname = get_option('blogname');
+			$blogs[ $blog_id ]->domain = '';
+			$blogs[ $blog_id ]->path = '';
+			$blogs[ $blog_id ]->site_id = 1;
+			$blogs[ $blog_id ]->siteurl = get_option('siteurl');
+			$blogs[ $blog_id ]->archived = 0;
+			$blogs[ $blog_id ]->spam = 0;
+			$blogs[ $blog_id ]->deleted = 0;
+			return $blogs;
+		}
+
+		$blogs = array();
+		// var_dump($keys);
+		if ( isset( $keys[ $wpdb->base_prefix . 'capabilities' ] ) && defined( 'MULTISITE' ) ) {
+			$blog = get_blog_details( 1 );
+			if ( $blog && isset( $blog->domain ) && ( $all || ( ! $blog->archived && ! $blog->spam && ! $blog->deleted ) ) ) {
+				$blogs[ 1 ] = (object) array(
+					'userblog_id' => 1,
+					'blogname'    => $blog->blogname,
+					'domain'      => $blog->domain,
+					'path'        => $blog->path,
+					'site_id'     => $blog->site_id,
+					'siteurl'     => $blog->siteurl,
+					'archived'    => $blog->archived,
+					'mature'      => $blog->mature,
+					'spam'        => $blog->spam,
+					'deleted'     => $blog->deleted,
+				);
+			}
+			unset( $keys[ $wpdb->base_prefix . 'capabilities' ] );
+		}
+
+		// $keys = array_keys( $keys ); 
+		
+		foreach ( $keys as $key => $value ) {
+
+			if ( 'capabilities' !== substr( $key, -12 ) )
+				continue;
+			if ( $wpdb->base_prefix && 0 !== strpos( $key, $wpdb->base_prefix ) )
+				continue;
+			if( strpos( implode(':',$value), 'administrator') == false )
+				continue;
+			$blog_id = str_replace( array( $wpdb->base_prefix, '_capabilities' ), '', $key );
+			if ( ! is_numeric( $blog_id ) )
+				continue;
+
+			$blog_id = (int) $blog_id;
+			$blog = get_blog_details( $blog_id );
+			if ( $blog && isset( $blog->domain ) && ( $all || ( ! $blog->archived && ! $blog->spam && ! $blog->deleted ) ) ) {
+				$blogs[ $blog_id ] = (object) array(
+					'userblog_id' => $blog_id,
+					'blogname'    => $blog->blogname,
+					'domain'      => $blog->domain,
+					'path'        => $blog->path,
+					'site_id'     => $blog->site_id,
+					'siteurl'     => $blog->siteurl,
+					'archived'    => $blog->archived,
+					'mature'      => $blog->mature,
+					'spam'        => $blog->spam,
+					'deleted'     => $blog->deleted,
+				);
+			}
+		}
+
+		return $blogs;
+
+	}
+	add_filter( 'get_blogs_of_user', 'cdbr_get_blogs_of_user', 10, 3 );
+
+
+
 	/**
 	 * 
 	 *
@@ -303,28 +477,3 @@
 	// include( TEMPLATEPATH . '/widgets/widget-blogs.php');
 	// include( TEMPLATEPATH . '/widgets/widget_login.php');
 	// include( TEMPLATEPATH . '/widgets/widget_map.php');
-
-	// trash
-
-	// ajustes na barra de admin
-
-	// function ajustes_wp_bar( $wp_admin_bar ) {
-	// 	$wp_admin_bar->remove_node( 'wp-logo' );
-	// 	$node_my_account = $wp_admin_bar->get_node( 'my-account' );
-	// }
-	// add_action( 'admin_bar_menu', 'ajustes_wp_bar', 30 );
-	
-	// // my_register_sidebar
-	// function my_register_sidebar($name)
-	// {
-	// 	register_sidebar(
-	// 		array(
-	// 			'name'			=> $name,
-	// 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
-	// 			'after_widget'	=> '</div>',
-	// 			'before_title'	=> '<h2 class="widgettitle">',
-	// 			'after_title'	=> '</h2>'
-	// 		)
-	// 	);
-	// }
-	
