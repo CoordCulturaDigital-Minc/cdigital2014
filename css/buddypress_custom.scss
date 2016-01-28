@@ -817,55 +817,7 @@ $nav-background-border: #E6E2E2;
 
 			} // close .action
 
-			// item-list buttons blocked/full width for mobile/small screens
-			// .activity-meta,
-			// .action {
-			// 	float: none;
-
-			// 	a,
-			// 	div {
-			// 		display: block;
-			// 		margin: $spacing-val-xs 0;
-			// 	}
-
-
-			// 	.bp-social-button {
-			// 		// background-color: red;
-
-			// 		// display: none;
-
-			// 		&:before {
-			// 			// font-family: "Icons";
-			// 		    // line-height: 1;
-			// 		    // font-size: 16px;
-			// 		}
-
-			// 		.acomment-reply {
-			// 			&:before {
-			// 				// content: "\f075";
-			// 			}
-			// 		}
-			// 	}
-
-			// 	div.social-buttons {
-			// 	    // position: absolute;
-			// 	    // left: 0px;
-			// 	    // bottom: 0px;
-			// 	    // display: block !important;
-			// 	    // height: 30px;
-			// 	    // background-color: transparent;
-			// 	    // border: none;
-			// 	    // margin: 0px;
-			// 	    // padding: 0px;
-
-			// 	    a {
-			// 			// width: 20px;
-			// 			// height: 25px;
-			// 			// font-size: 20px !important;
-			// 	    }
-			// 	}
-			// }
-
+	
 			@media screen and (min-width: 594px) {
 				.item-avatar {
 					float: left;
@@ -947,13 +899,19 @@ $nav-background-border: #E6E2E2;
 *-------------------------------------------------
 */
 #buddypress {
+
+	.activity {
+		form#whats-new-form {
+			background-color: #F5F5F5;
+			box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+		}
+	}
+
+
 	form#whats-new-form {
 		margin: $spacing-val-lg 0;
 		margin: 40px 0;
-	    background-color: #F5F5F5;
-	    padding: $spacing-val-md;
-	    /* border: 1px solid #aaa; */
-	    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+	    padding: $spacing-val-md;	 
 
 		#whats-new-avatar {
 			float: none;
@@ -1044,9 +1002,9 @@ $nav-background-border: #E6E2E2;
 				color: #777;
 				&:hover {
 					color: #00aeef;
-					// text-decoration: underline;
 				}
 			}
+
 			.activity-avatar {
 				float: none;
 				margin-bottom: $spacing-val-sm;
@@ -1058,18 +1016,13 @@ $nav-background-border: #E6E2E2;
 					height: 50px;
 					width: 50px;
 					border-radius: 100px;
-					border: 2px solid #efefef;
-
+					border: 2px solid #EDEDED
 				}
 			}
 
-			// .activity-header {
-			// 	position: relative;
-
-			// }
-
 			.activity-inner {
 				max-height: 110px;
+				min-height: 70px;
 				overflow: hidden;
 				p {
 					color: #777;
@@ -1168,104 +1121,198 @@ $nav-background-border: #E6E2E2;
 
 
 			&.activity_update {
+				padding-left: 80px; 
 				.activity-header {
 				    a:not(.activity-time-since) {
 						font-weight: bold;
-						// display: block;
-						// margin-top: 10px;
-					    // letter-spacing: -1px;
-					    // line-height: 1.2;
 				    	color: #005FA2;
 				    	&:hover {
 				    		text-decoration: underline;
 				    	}
+
+				    	
 				    }
+
 				}
+
+				&:after {
+		    		position: absolute;
+		    		top: 68px;
+		    		left: 25px;
+
+		    		height: 100%;
+		    		width: 0px;
+
+					content: "";
+		    		
+		    		border: 2px solid #EDEDED;
+		    	}
+
+				.activity-avatar {
+						z-index: 2;
+						position: absolute;
+						top: 10px;
+						left: 0px;
+					img.avatar {
+						border-width: 4px;
+					}
+
+				}
+
 				.activity-inner {
+					min-height: 50px;
 					p {
 						color: #2B2424
 					}
 				}
 			}
 
-
-
-		}
-
-
-		.activity-meta {
-			a {
-				opacity: 0.2;
-				border: none;
-			    color: #aaa;
-			    font-weight: bold;
-			    overflow: hidden;
-			    width: 12px;
-			    height: 20px;
-			    position: relative;
-			   	background-color: transparent;
-			   	font-size: 0px !important;
-
-			    &.acomment-reply:before {
-			    	@include semantic-icons("\f075");
-			    	@include font-size(16);		    	
-			    }
-
-			    &.acomment-reply{
-			    	position: relative;
-			    	width: 30px;
-			    	span {
-						color: inherit;
-						position: absolute;
-						top: 2px;
-						left: 26px;
-						font-size: 14px;
-						background-color: transparent;
-					}
-
-					&:hover:before,
-					&:hover {
-						color: #2771a5;
-					}
-			    }
-
-			    &.fav {
-			    	
-			    	&:before {
-				    	@include semantic-icons("\f006");
-				    	@include font-size(16);
-				    	line-height: 1.3;
-			    	}
-			    	&:hover:before {
-			    		color: #ffac33;
-			    	}
-			    }
-			   
-			    &.unfav { 
-			    	&:before {
-				    	@include semantic-icons("\f005");
-				    	@include font-size(16);
-				    	line-height: 1.3;
-				    	color: #ffac33;
-				    }
-			    }
-			   
-			    &.delete-activity {
-			    	&:before {
-			    		@include semantic-icons("\f00d");
-			    		@include font-size(16);
+			.activity-meta {
+				a {
+				    position: relative;
+				    overflow: hidden;
+				   	font-size: 0px !important;
 				    
-				    }
-			    	&:hover:before {
-			    		color: #7F0000;
-			    	}
-			    }
-			    &:hover {
-			    	opacity: 1;
-			    }
-			    
-			}
+					opacity: 0.2;
+				   	background-color: transparent;
+					
+					border: none;
+				    color: #aaa;
+				    font-weight: bold;
+				    
+				    width: 12px;
+				    height: 20px;
+				   	
+				    // &.acomment-reply:
 
+				    &.acomment-reply{
+				    	position: relative;
+				    	width: 30px;
+
+						&:before {
+					    	@include semantic-icons("\f075");
+					    	@include font-size(16);		    	
+					    }
+
+						&:hover:before,
+						&:hover {
+							color: #2771a5;
+						}
+
+				    	span {
+							color: inherit;
+							position: absolute;
+							top: 2px;
+							left: 26px;
+							font-size: 16px;
+							background-color: transparent;
+						}
+
+				    }
+
+				    &.fav {
+				    	
+				    	&:before {
+					    	@include semantic-icons("\f006");
+					    	line-height: 1.2;
+				    	}
+				    	&:hover:before {
+				    		color: #ffac33;
+				    	}
+				    }
+				   
+				    &.unfav { 
+				    	&:before {
+					    	@include semantic-icons("\f005");
+					    	// @include font-size(16);
+					    	line-height: 1.3;
+					    	color: #ffac33;
+					    }
+				    }
+				   
+				    &.delete-activity {
+				    	&:before {
+				    		@include semantic-icons("\f00d");
+				    		line-height: 1.1;
+					    
+					    }
+				    	&:hover:before {
+				    		color: #7F0000;
+				    	}
+				    }
+
+				    &.acomment-reply,
+				    &.fav,
+				    &.unfav,
+				    &.delete-activity {
+					    &:before {
+					    	font-size: 18px;
+					    }	    
+				    }
+
+				    &.button:first-child {
+				    	margin-left: 130px;
+				    }
+
+				    &:hover {
+				    	
+				    	opacity: 1;
+				    }
+
+				}
+
+				.bp-social-button {
+					display: none;
+				}
+
+				.social-buttons {
+					position: absolute;
+					left: 0px;
+					bottom: 8px;
+					display: block !important;
+					height: 30px;
+					background-color: transparent;
+					border: none;
+					margin: 0px;
+					padding: 0px; 
+
+					a {
+						color: #aaa;
+						width: 20px;
+						height: 25px;
+						font-size: 20px !important;
+						&:hover {
+							text-decoration: none;
+						}
+
+						&.foundicon-twitter:hover { 
+							color: #00caff;
+						}
+
+						&.foundicon-facebook:hover { 
+							color: #415a99;
+						}
+
+						&.foundicon-google-plus:hover { 
+							color: #c8331f;
+						}
+					}
+				}	
+
+			}
+			&:hover {
+				.activity-meta {
+					a {
+						opacity: 1;
+					}
+				}
+			}
+			
+			&.has-comments {
+				.activity-meta {
+					// border-bottom: 1px solid #c8c8c8;
+				}
+			}
 		}
 
 		li.mini {
@@ -1353,8 +1400,6 @@ body.activity-permalink {
 * @subsection 4.1.3 - Activity Comments
 *-------------------------------------------------
 */
-
-
 #buddypress {
 	.activity {
 		.activity-comments {
@@ -1363,7 +1408,7 @@ body.activity-permalink {
 			margin-top: 5px;
 
 			@media screen and (min-width: 594px) {
-				margin-left: 70px;
+				margin-left: 30px;
 			}
 
 			ul {
