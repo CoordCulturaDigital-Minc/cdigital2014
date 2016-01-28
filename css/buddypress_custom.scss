@@ -1097,6 +1097,17 @@ $nav-background-border: #E6E2E2;
 
 				.activity-inner {
 					margin: $spacing-val-sm 0px 0px 0px;
+
+					span.thumbnail {
+						float: left;
+					    margin-right: 15px;
+					    border: 2px solid #C8C8C8;
+					    max-height: 110px;
+					    overflow: hidden;
+					    img {
+					    	max-width: 300px;
+					    }
+					 }
 				}
 
 				.activity-time-since {
