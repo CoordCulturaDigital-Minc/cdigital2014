@@ -521,7 +521,7 @@ li.bp-logout-nav > a:before {
       border-radius: 100px;
       border: 2px solid #EDEDED; }
   #buddypress .activity-list li.activity-item:not(.mini) .activity-inner {
-    max-height: 110px;
+    max-height: 120px;
     min-height: 70px;
     overflow: hidden; }
     #buddypress .activity-list li.activity-item:not(.mini) .activity-inner p {
@@ -582,11 +582,11 @@ li.bp-logout-nav > a:before {
       #buddypress .activity-list li.activity-item:not(.mini).new_blog_post .activity-inner span.thumbnail {
         float: left;
         margin-right: 15px;
-        border: 2px solid #C8C8C8;
-        max-height: 110px;
+        max-height: 120px;
         overflow: hidden; }
         #buddypress .activity-list li.activity-item:not(.mini).new_blog_post .activity-inner span.thumbnail img {
-          max-width: 300px; }
+          max-height: 115px;
+          border: 2px solid #aaa; }
     #buddypress .activity-list li.activity-item:not(.mini).new_blog_post .activity-time-since {
       position: absolute;
       top: 0px;
@@ -699,7 +699,7 @@ li.bp-logout-nav > a:before {
     #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a.delete-activity:hover:before {
       color: #7F0000; }
     #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a.acomment-reply:before, #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a.fav:before, #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a.unfav:before, #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a.delete-activity:before {
-      font-size: 18px; }
+      font-size: 15px; }
     #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a.button:first-child {
       margin-left: 130px; }
     #buddypress .activity-list li.activity-item:not(.mini) .activity-meta a:hover {

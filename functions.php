@@ -374,7 +374,7 @@
 			if( isset($imgs[0] ) ) {
 				$new_content = '<span class="thumbnail">'.$imgs[0].'</span>';
 			
-				$new_content .= '<p>'. strip_tags($content) . '</p>';
+				$new_content .= '<p>'. strip_tags($content,'<p><a><br>') . '</p>';
 
 				$content = $new_content;
 			}

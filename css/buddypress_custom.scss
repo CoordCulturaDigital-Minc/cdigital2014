@@ -1021,7 +1021,7 @@ $nav-background-border: #E6E2E2;
 			}
 
 			.activity-inner {
-				max-height: 110px;
+				max-height: 120px;
 				min-height: 70px;
 				overflow: hidden;
 				p {
@@ -1101,11 +1101,11 @@ $nav-background-border: #E6E2E2;
 					span.thumbnail {
 						float: left;
 					    margin-right: 15px;
-					    border: 2px solid #C8C8C8;
-					    max-height: 110px;
+					    max-height: 120px;
 					    overflow: hidden;
 					    img {
-					    	max-width: 300px;
+					    	max-height: 115px;
+   							border: 2px solid #aaa;
 					    }
 					 }
 				}
@@ -1257,7 +1257,7 @@ $nav-background-border: #E6E2E2;
 				    &.unfav,
 				    &.delete-activity {
 					    &:before {
-					    	font-size: 18px;
+					    	font-size: 15px;
 					    }	    
 				    }
 
