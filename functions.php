@@ -462,7 +462,7 @@
 	include( TEMPLATEPATH . '/inc/enhanced-comments.php' );
 
 	// widgets
-	 include( TEMPLATEPATH . '/widgets/widget-destaques.php'); // para funcionar tem que ativar o plugin minc_headlines	
+	 include( TEMPLATEPATH . '/widgets/widget-destaques.php'); // para funcionar tem que ativar o plugin minc_headlines	TODO: talvez seja o caso desativar.
 	 include( TEMPLATEPATH . '/widgets/widget-atividades.php');
 	 include( TEMPLATEPATH . '/widgets/widget-blogs-principais.php');
 	 include( TEMPLATEPATH . '/widgets/widget-custom-loop.php');
