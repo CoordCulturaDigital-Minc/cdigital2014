@@ -323,28 +323,37 @@
     add_action('bp_has_activities','my_custom_activities', 9, 2 );
 
 
-    function get_tag_html( $tag, $xml ) {
-		  $tag = preg_quote($tag);
-		  //|<[^>]+>(.*)</[^>]+>|U
-		  // '/<'. $tag .'[^>]*>.*?<\/'. $tag .'>/'
-		  //<a[^>]+>(.*)<\/[a^>]+>|U
+    function get_tag_html( $xml ) {
+		$tag = preg_quote($tag);
 
-		  preg_match_all('|<[^>]+>(.*)</[^>]+>|U',
-	                   $xml,
-	                   $matches,
-	                   PREG_PATTERN_ORDER);
+		$regex = '|<[^>]+>(.*)</[^>]+>|U';
 
-	  return $matches[0];
+		preg_match_all($regex,
+		           $xml,
+		           $matches,
+		           PREG_PATTERN_ORDER);
+
+		return $matches[0];
 	}
 
+	function get_img_html( $xml ) {
+		$tag = preg_quote($tag);
+
+		$regex = "/(<img\s[^>]*?src\s*=\s*['\"][^'\"]*?['\"][^>]*?>)/";
+
+		preg_match_all($regex,
+		           $xml,
+		           $matches,
+		           PREG_SET_ORDER);
+
+		return $matches[0];
+	}
 
     function cdbr_get_activity_action_callback( $action, $activity ) {
 
-
-
     	if( $activity->type == 'new_blog_post' ) {
 
-	    	$links = get_tag_html( 'a', $activity->action ); 
+	    	$links = get_tag_html($activity->action ); 
 	    	$action = '<span class="activity-blog">' . $links[2] . '</span>';
 	    	$action .= '<span class="activity-title">' . $links[1] . '</span>';
 	  		$action .= '<span class="activity-author">' . $links[0] . '</span>'; 
@@ -353,9 +362,28 @@
 	    return $action;
     }
     add_filter('bp_get_activity_action_pre_meta','cdbr_get_activity_action_callback',10,2);
+
+
+
+	function cdbr_get_activity_content_body_callback(  $content, $activity ) {
+		
+		if( $activity->type == 'new_blog_post' ) {
+
+			$imgs =  get_img_html($content);
+
+			if( isset($imgs[0] ) ) {
+				$new_content = '<span class="thumbnail">'.$imgs[0].'</span>';
+			
+				$new_content .= '<p>'. strip_tags($content) . '</p>';
+
+				$content = $new_content;
+			}
+		}
+
+		return $content;
+	}
+	add_filter('bp_get_activity_content_body','cdbr_get_activity_content_body_callback',10,2);
 	
-
-
 	/**
 	* Filtro para mostrar no menu "meus sites" apenas os blogs que o usuário é administrador.
 	*
