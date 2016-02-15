@@ -12,7 +12,7 @@ class widget_map extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_map', 'description' => __( 'Mapa') );
-		parent::WP_Widget('mapa', __('Mapa'), $widget_args);
+		parent::__construct('mapa', __('Mapa'), $widget_args);
 	}
 
 	function widget($args, $instance)

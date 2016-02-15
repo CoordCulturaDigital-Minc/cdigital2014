@@ -12,7 +12,7 @@ class widget_hightlights extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_destaque', 'description' => __( 'Destaques da página inicial') );
-		parent::WP_Widget('destaque', __('Destaques'), $widget_args);
+		parent::__construct('destaque', __('Destaques'), $widget_args);
 	}
 
 	function widget($args, $instance)

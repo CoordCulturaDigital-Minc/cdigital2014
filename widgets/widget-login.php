@@ -12,7 +12,7 @@ class widget_login extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_login', 'description' => __( 'Login') );
-		parent::WP_Widget('login', __('Login'), $widget_args);
+		parent::__construct('login', __('Login'), $widget_args);
 	}
 
 	function widget($args, $instance)

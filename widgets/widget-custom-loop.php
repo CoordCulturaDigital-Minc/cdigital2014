@@ -272,8 +272,11 @@ class Widget_Custom_Loop extends WP_Widget
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';
 
+		$widget_args = array( 'classname' => 'widget_custom_loop', 'description' => __( 'Allow the creation of a custom loop', 'widget-custom-loop' ) );
+		parent::__construct('custom_loop', __('Custom Loop'), $widget_args);
+
 		// register widget
-		$this->WP_Widget( 'custom_loop', 'Custom Loop', array( 'classname' => 'widget_custom_loop', 'description' => __( 'Allow the creation of a custom loop', 'widget-custom-loop' ) ), array( 'width' => 400 ) );
+		// $this->WP_Widget( 'custom_loop', 'Custom Loop', array( 'classname' => 'widget_custom_loop', 'description' => __( 'Allow the creation of a custom loop', 'widget-custom-loop' ) ), array( 'width' => 400 ) );
 
 		// includes
 		if( !function_exists( 'limit_chars' ) )

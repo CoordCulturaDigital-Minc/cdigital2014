@@ -14,7 +14,7 @@ class widget_activity extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_activity', 'description' => __( 'Fluxo de atividades em todo site') );
-		parent::WP_Widget('activity', __('Fluxo de atividades'), $widget_args);
+		parent::__construct('activity', __('Fluxo de atividades'), $widget_args);
 
 
 		// filtro para mostrar na home apenas os itens que foram definidos na widget

@@ -34,7 +34,7 @@ class widget_link_register extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_link_register', 'description' => __( 'Register') );
-		parent::WP_Widget('link_register', __('Register'), $widget_args);
+		parent::__construct('link_register', __('Register'), $widget_args);
 	}
 
 	function widget($args, $instance)

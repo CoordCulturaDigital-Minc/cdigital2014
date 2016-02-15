@@ -57,7 +57,7 @@ class Widget_Twitter_Feed extends WP_Widget
 	 * @param   array $instance - widget data
 	 * @return  void
 	 */
-	function widget( $args, $instance )
+	public function widget( $args, $instance )
 	{
 	
 		print $args[ 'before_widget' ];
@@ -177,7 +177,7 @@ class Widget_Twitter_Feed extends WP_Widget
 	 * @param   array $old_instance - old values
 	 * @return  array
 	 */
-	function update($new_instance, $old_instance)
+	public function update($new_instance, $old_instance)
 	{
 		$instance = $old_instance;
 		
@@ -198,7 +198,7 @@ class Widget_Twitter_Feed extends WP_Widget
 	 * @param   array $instance - widget data
 	 * @return  void
 	 */
-	function form( $instance )
+	public function form( $instance )
 	{
 		$title  = !empty( $instance[ 'title' ] ) ? $instance[ 'title' ] : '';
 
@@ -218,13 +218,16 @@ class Widget_Twitter_Feed extends WP_Widget
 	 * @updated 2014-10-27
 	 * @return  void
 	 */
-	function __construct()
+	public function __construct()
 	{
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';
 
+		$widget_args = array( 'classname' => 'widget_twitter_feed', 'description' => 'Feed do twitter' );
+		parent::__construct('twitter_feed', __('Widget Twitter Feed'), $widget_args);
+
 		// register widget
-		$this->WP_Widget( 'twitter_feed', 'Widget Twitter Feed', array( 'classname' => 'widget_twitter_feed', 'description' => 'Feed do twitter' ), array( 'width' => 400 ) );
+		// $this->WP_Widget( 'twitter_feed', 'Widget Twitter Feed', array( 'classname' => 'widget_twitter_feed', 'description' => 'Feed do twitter' ), array( 'width' => 400 ) );
 	}
 
 	// DESTRUCTOR ////////////////////////////////////////////////////////////////////////////////////

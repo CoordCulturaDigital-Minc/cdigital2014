@@ -12,7 +12,7 @@ class widget_customPosts extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_customPosts', 'description' => __( 'Custom posts') );
-		parent::WP_Widget('customPosts', __('Custom posts'), $widget_args);
+		parent::__construct('customPosts', __('Custom posts'), $widget_args);
 	}
 
 	function widget($args, $instance)

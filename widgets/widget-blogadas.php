@@ -135,7 +135,10 @@ class Widget_ultimas_blog extends WP_Widget
 		$this->path = dirname( __FILE__ ) . '/';
 
 		// register widget
-		$this->WP_Widget( 'Widget_ultimas_blog', 'Ultimas Blogadas', array( 'classname' => 'Widget_ultimas_blog', 'description' => __( 'Exibe as ultimas blogadas da rede', 'Widget_ultimas_blog' ) ) );
+		//$this->WP_Widget( 'Widget_ultimas_blog', 'Ultimas Blogadas', array( 'classname' => 'Widget_ultimas_blog', 'description' => __( 'Exibe as ultimas blogadas da rede', 'Widget_ultimas_blog' ) ) );
+	
+		$widget_args = array('classname' => 'Widget_ultimas_blog', 'description' => __( 'Exibe as ultimas blogadas da rede', 'Widget_ultimas_blog' ) );
+		parent::__construct('Widget_ultimas_blog', __('Ultimas Blogadas'), $widget_args);
 	}
 
 	// DESTRUCTOR ////////////////////////////////////////////////////////////////////////////////////

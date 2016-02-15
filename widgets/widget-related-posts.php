@@ -13,7 +13,7 @@ class widget_related_posts extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_related_posts', 'description' => __( 'Posts relacionados') );
-		parent::WP_Widget('related_posts', __('Related Posts'), $widget_args);
+		parent::__construct('related_posts', __('Related Posts'), $widget_args);
 	}
 
 	function widget($args, $instance)

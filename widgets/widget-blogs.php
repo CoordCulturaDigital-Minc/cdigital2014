@@ -12,7 +12,7 @@ class widget_blogs extends WP_Widget
 	function __construct()
 	{
 		$widget_args = array('classname' => 'widget_blogs', 'description' => __( 'Blogs') );
-		parent::WP_Widget('blogs', __('Blogs'), $widget_args);
+		parent::__construct('blogs', __('Blogs'), $widget_args);
 	}
 
 	function widget($args, $instance)

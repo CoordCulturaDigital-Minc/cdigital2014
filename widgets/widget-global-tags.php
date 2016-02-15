@@ -155,8 +155,11 @@ class Widget_Global_Tags extends WP_Widget
 		// define plugin path
 		$this->path = dirname( __FILE__ ) . '/';
 
+		$widget_args = array( 'classname' => 'widget_global_tags', 'description' => 'Pega as tags de um determinado blog da rede' );
+		parent::__construct('global_tags', __('Widget Global Tags'), $widget_args);
+
 		// register widget
-		$this->WP_Widget( 'global_tags', 'Widget Global Tags', array( 'classname' => 'widget_global_tags', 'description' => 'Pega as tags de um determinado blog da rede' ), array( 'width' => 400 ) );
+		// $this->WP_Widget( 'global_tags', 'Widget Global Tags', array( 'classname' => 'widget_global_tags', 'description' => 'Pega as tags de um determinado blog da rede' ), array( 'width' => 400 ) );
 	}
 
 	// DESTRUCTOR ////////////////////////////////////////////////////////////////////////////////////
