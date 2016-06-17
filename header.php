@@ -17,8 +17,6 @@
 	<title><?php wp_title( '|', true, 'right' );?></title>
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="">
-	<meta name="author" content="">
 	<link rel="icon" href="<?php print THEME_URL; ?>/images/favicon.ico">
 
 	<?php wp_head(); ?>
